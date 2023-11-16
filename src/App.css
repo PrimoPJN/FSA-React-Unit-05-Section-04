@@ -1,0 +1,20 @@
+.header {
+  max-width: 1200px;
+  background-color: #666;
+  padding: 20px;
+  color: #fff;
+}
+
+.content {
+  margin-left: 15px;
+}
+
+.addCities {
+  padding: 2px;
+}
+
+.listCities {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
