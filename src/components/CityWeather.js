@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { loadWeather } from "../redux/actions/weatherActions";
 
 import "./CityWeather.css";
-import weatherImg from "../imgs/sunny.png";
 
 class CityWeather extends Component {
   componentDidMount() {
@@ -24,12 +23,20 @@ class CityWeather extends Component {
           {weatherData && weatherData.main ? (
             <React.Fragment>
               <div className="colLeft">
-                <img src={weatherImg} className="cardImg" alt="" />
+                <img
+                  src={
+                    "https://openweathermap.org/img/wn/" +
+                    weatherData.weather[0].icon +
+                    "@2x.png"
+                  }
+                  className="cardImg"
+                  alt=""
+                />
               </div>
               <div className="colRight">
-                <p>Temp: {parseInt(weatherData.main.temp)}&#176;</p>
-                <p>Low: {parseInt(weatherData.main.temp_min)}&#176;</p>
-                <p>High: {parseInt(weatherData.main.temp_max)}&#176;</p>
+                <p>Temp: {parseInt(weatherData.main.temp)}&#176;C</p>
+                <p>Low: {parseInt(weatherData.main.temp_min)}&#176;C</p>
+                <p>High: {parseInt(weatherData.main.temp_max)}&#176;C</p>
                 <p>Humidity: {`${weatherData.main.humidity}`}</p>
               </div>
             </React.Fragment>

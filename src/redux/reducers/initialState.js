@@ -1,3 +1,3 @@
 export default {
-  weathers: [{ city: "New York" }, { city: "Chennai" }, { city: "Sao Paulo" }],
+  weathers: [{ city: "New York" }, { city: "Florida" }, { city: "Sao Paulo" }],
 };

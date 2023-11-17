@@ -9,7 +9,7 @@ export async function getWeatherByCityAsync(city) {
   return data;
 }
 export const getWeatherByCity = (city) =>
-  fetch(`${baseUrl}/data/2.5/weather?q=${city}&units=imperial&appid=${API_KEY}`)
+  fetch(`${baseUrl}/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`)
     .then((response) => {
       if (!response.ok) {
         throw Error(response.statusText);
