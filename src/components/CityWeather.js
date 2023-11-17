@@ -1,35 +1,60 @@
-import React from 'react';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import './CityWeather.css';
-import weatherImg from '../imgs/sunny.png';
+import { loadWeather } from "../redux/actions/weatherActions";
 
-const CityWeather = props => {
-  const { cityName, currentTemp, lowTemp, highTemp, humidity } = props;
+import "./CityWeather.css";
+import weatherImg from "../imgs/sunny.png";
 
-  return (
-    <div class="card">
-      <div class="card-header">{cityName} - {currentTemp}&#176;</div>
-      <div class="card-body">
-        <div className="colLeft">
-          <img src={weatherImg} className="cardImg" alt="" />
-        </div>
-        <div className="colRight">
-          <p>Low: {lowTemp}&#176;</p>
-          <p>High: {highTemp}&#176;</p>
-          <p>Humidity: {`${humidity}%`}</p>
+class CityWeather extends Component {
+  componentDidMount() {
+    const { cityName, weatherData, loadWeather } = this.props;
+    if (!weatherData) {
+      loadWeather(cityName);
+    }
+  }
+
+  render() {
+    const { cityName, weatherData } = this.props;
+
+    return (
+      <div className="card">
+        <div className="card-header">{cityName}</div>
+        <div className="card-body">
+          {weatherData && weatherData.main ? (
+            <React.Fragment>
+              <div className="colLeft">
+                <img src={weatherImg} className="cardImg" alt="" />
+              </div>
+              <div className="colRight">
+                <p>Temp: {parseInt(weatherData.main.temp)}&#176;</p>
+                <p>Low: {parseInt(weatherData.main.temp_min)}&#176;</p>
+                <p>High: {parseInt(weatherData.main.temp_max)}&#176;</p>
+                <p>Humidity: {`${weatherData.main.humidity}`}</p>
+              </div>
+            </React.Fragment>
+          ) : (
+            <h4>Loading</h4>
+          )}
         </div>
       </div>
-    </div>
-  );
-};
-
+    );
+  }
+}
 
 CityWeather.defaultProps = {
-  cityName: '',
-  currentTemp: 68,
-  lowTemp: 55,
-  highTemp: 73,
-  humidity: 20,
+  cityName: "",
+  weatherData: null,
 };
 
-export default CityWeather;
+function mapStateToProps(state, ownProps) {
+  return state.weathers.find((weather) => weather.city === ownProps.cityName);
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    loadWeather: (cityName) => dispatch(loadWeather(cityName)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CityWeather);

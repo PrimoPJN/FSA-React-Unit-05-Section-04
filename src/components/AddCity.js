@@ -1,28 +1,34 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-export default class AddCity extends Component {
-  state = { inputValue: '', };
+import * as weatherActions from "../redux/actions/weatherActions";
 
-  handleChange = event => {
-    const inputValue = event.target.value;
-    this.setState({ inputValue });
+class AddCity extends Component {
+  state = { weather: { city: "" } };
+
+  handleChange = (event) => {
+    const weather = { ...this.state.weather, city: event.target.value };
+    this.setState({ weather });
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
-    this.props.addCity(this.state.inputValue);
-    this.setState({ inputValue: '' });
+    this.props.dispatch(weatherActions.addCity(this.state.weather.city));
+
+    this.props.addCity(this.state.weather.city);
+
+    this.setState({ weather: { city: "" } });
   };
 
   render() {
-    const { inputValue } = this.state;
-
     return (
       <div className="addCities">
         <form id="addCity" onSubmit={this.handleSubmit}>
-          <input type="text" name="_addCity"
-            value={inputValue} 
-            onChange={this.handleChange} 
+          <input
+            type="text"
+            name="_addCity"
+            value={this.state.weather.city}
+            onChange={this.handleChange}
             placeholder="Enter City"
           ></input>
         </form>
@@ -30,3 +36,9 @@ export default class AddCity extends Component {
     );
   }
 }
+
+function mapStateToProps(state, ownProps) {
+  return { weathers: state.weathers };
+}
+
+export default connect(mapStateToProps)(AddCity);
